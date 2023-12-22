@@ -5,13 +5,15 @@
         <button><mat-icon aria-hidden="false" aria-label="Search icon" fontIcon="search">search</mat-icon></button>
     </div>
     <div class="videocall">
-        <button mat-fab color="grey" aria-label="Video Call">
+        <button (click)="handleAddVideo()" mat-fab color="grey" aria-label="Video Call">
             <mat-icon [ngStyle]="{'display':'block'}">video_call</mat-icon>
         </button>
-        <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwaclfFtHZqMKuOD-nFf35LeQSlwL-M67Ow-XyzvmaeS747mSiaqzYWYc6FBUSXQXkuJk">
-        <button mat-raised-button (click)="login()">Login</button>
-        <button mat-raised-button (click)="logout()">LogOut</button>
+        <ng-template #loggedInTemplate>
+            <img [src]="photoUrl">
+            <button mat-raised-button (click)="logout()">Log Out</button>
+        </ng-template>
+
+        <button *ngIf="!user; else loggedInTemplate" mat-raised-button (click)="login()">Login</button>
     </div>
 </div>
 <hr>

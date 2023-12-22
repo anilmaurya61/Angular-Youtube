@@ -1,4 +1,7 @@
-<app-header></app-header>
+<app-header ></app-header>
+<div *ngIf="!uploadVideoPopup">
+    <app-upload-video (addVideo)="handleUploadVideoPopup($event)"></app-upload-video>
+</div>
 <mat-drawer-container class="example-container">
     <!-- Drawer -->
 
@@ -10,7 +13,6 @@
             </div>
             <div>
                 <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="subscriptions"></mat-icon>
-                
                 <span>Subscriptions</span></div>
             <div>
                 <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="smart_display"></mat-icon>

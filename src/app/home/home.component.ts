@@ -3,25 +3,32 @@ import { HeaderComponent } from "../Component/header/header.component";
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../authentication.service'
+import { UploadVideoComponent } from "../Component/upload-video/upload-video.component";
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-home',
     standalone: true,
     templateUrl: './home.component.html',
     styleUrl: './home.component.css',
-    imports: [ MatIconModule, HeaderComponent, MatSidenavModule]
+    imports: [CommonModule, MatIconModule, HeaderComponent, MatSidenavModule, UploadVideoComponent]
 })
 export class HomeComponent {
 
-    constructor(private authService: AuthService
-        
-        ) { }
+    uploadVideoPopup: boolean = true;
 
-    login() {
+    constructor(private authService: AuthService) { }
+
+    public handleUploadVideoPopup(event:any): void{
+        console.log("home",this.uploadVideoPopup, event)
+        this.uploadVideoPopup = !this.uploadVideoPopup;
+    }
+    
+    login(): void{
         this.authService.login();
     }
 
-    logout() {
+    logout(): void{
         this.authService.logout();
     }
 }
