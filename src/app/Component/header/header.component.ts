@@ -33,8 +33,7 @@ export class HeaderComponent {
   }
 
   public handleAddVideo(){
-    console.log("header")
-    this.addVideo.emit(this.name);
+    this.addVideo.emit();
   }
 
   public async login() {

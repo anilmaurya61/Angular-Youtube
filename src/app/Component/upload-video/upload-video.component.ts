@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
@@ -14,25 +14,36 @@ import { MatSelectModule } from '@angular/material/select';
   imports: [FormsModule, CommonModule, MatFormFieldModule, MatInputModule, MatSelectModule]
 })
 export class UploadVideoComponent {
+  @Output()
+  closeAddvideo = new EventEmitter<any>();
 
-  onVideoFileChange($event: Event) {
-    throw new Error('Method not implemented.');
-  }
-  uploadVideo() {
-    throw new Error('Method not implemented.');
-  }
   thumbnailUrl: any;
   title: string = '';
-  description: any;
-  tags: any;
-  isUploading: any;
+  description: any = '';
+  tags: any = '';
+  isUploading: boolean = true;
 
   public handleTitle(event:any) {
     this.title = event.target.value;
-    console.log(this.title);
+  }
+  public handledescription(event:any) {
+    this.description = event.target.value;
+  }
+  public handletags(event:any) {
+    this.tags = event.target.value;
   }
   public handleupload(event:any) {
-  
+    console.log(this.title, this.description, this.tags);
+    this.title = '', this.description = '', this.tags = ''
   }
-  // Add your component logic here
+  public closePopUp(){
+    this.closeAddvideo.emit();
+  }
+  
+  public onVideoFileChange(event: any) {
+
+  }
+  public uploadVideo() {
+
+  }
 }

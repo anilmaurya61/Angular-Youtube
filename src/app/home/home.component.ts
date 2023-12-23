@@ -19,8 +19,7 @@ export class HomeComponent {
 
     constructor(private authService: AuthService) { }
 
-    public handleUploadVideoPopup(event:any): void{
-        console.log("home",this.uploadVideoPopup, event)
+    public handleUploadVideoPopup() {
         this.uploadVideoPopup = !this.uploadVideoPopup;
     }
     

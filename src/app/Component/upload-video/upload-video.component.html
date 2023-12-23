@@ -10,13 +10,13 @@
         <div class="form-group">
             <mat-form-field [ngStyle]="{'width':'100%'}">
                 <mat-label>Enter Description</mat-label>
-                <textarea matInput rows="5"></textarea>
+                <textarea matInput [value]="description" (input)="handledescription($event)" rows="5"></textarea>
             </mat-form-field>
         </div>
         <div class="form-group">
             <mat-form-field [ngStyle]="{'width':'100%'}">
                 <mat-label>Enter Tags (separated by commas)</mat-label>
-                <input matInput>
+                <input matInput [value]="tags" (input)="handletags($event)">
             </mat-form-field>
         </div>
         <div class="form-group">
@@ -28,9 +28,9 @@
             <input type="file" id="videoFile" (change)="onVideoFileChange($event)" />
         </div>
         <div class="button-container">
-            <button >Cancel</button>
-            <button (click)="uploadVideo()">Upload</button>
-            <div *ngIf="isUploading" class="loading-indicator">Uploading...</div>
+            <button (click)="closePopUp()">Cancel</button>
+            <button (click)="handleupload($event)">Upload</button>
+            <div *ngIf="!isUploading" class="loading-indicator">Uploading...</div>
         </div>
     </div>
 </div>
