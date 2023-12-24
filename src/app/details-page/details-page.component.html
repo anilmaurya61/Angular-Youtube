@@ -1,0 +1,77 @@
+<app-header></app-header>
+<div class="details-container">
+    <div class="video-container">
+        <iframe width="900" height="555" src="https://www.youtube.com/embed/q84aKrzLtLw?si=GwHJLrPPwiwSJeUJ"
+            title="YouTube video player" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+        </iframe>
+        <p class="video-title-h">Bewafaa Tu Cover Video by Payal Panchal | Bewafa New Song 2023</p>
+        <div class="container">
+            <div class="video-details-container">
+                <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwaclfFtHZqMKuOD-nFf35LeQSlwL-M67Ow-XyzvmaeS747mSiaqzYWYc6FBUSXQXkuJk">
+                <div class="video-title">
+                    <p>Payal Panchal Songs</p>
+                    <p>2.2M views <span>&middot;</span> 3 days ago</p>
+                </div>
+                <button mat-raised-button class="subscribe-btn">Subscribe</button>
+            </div>
+            <div class="like-btn-container">
+                <button (click)="handlelikeUP()" mat-raised-button class="likebutton">
+                    <mat-icon aria-hidden="false" aria-label="Like icon" fontIcon="thumb_up"></mat-icon>
+                    {{likesCount}}
+                </button>
+                <button (click)="handlelikeDOWN()" mat-raised-button class="dislikebutton">
+                    <mat-icon aria-hidden="false" aria-label="Dislike icon" fontIcon="thumb_down"></mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="description-container">
+            <p class="views">286,898 views Premiered Nov 18, 2023</p>
+            <p class="description">
+                तुने साथ जो मेरा छोड़ा दीवाना तेरा मर जायेगा | खाटू श्याम जी भजन | अधिष्ठा अनुष्का
+                भजन राधे राधे बोल श्याम आएंगे,सुपरहिट भजन | राधे- राधे बोल श्याम आएंगे |,राधे राधे बोल,राधे राधे बोल
+                श्याम
+                आयेंगे,श्याम आएंगे,#राधे बोल श्याम बोल,राधे राधे बोल श्याम आऐंगें बरसाना कहाँ दूर है सब तेरी नजर का कसूर
+                है,#राधे,#राधे गीत,मन मोहने वाला भजन। राधे राधे बोल श्याम आएंगे। पूज्य श्री अनिरुद्धाचार्य जी महाराज।
+                sadhna bhajan,#राधे कृष्ण भजन,#राधा रानी के भजन,#राधे कृष्णा हरे हरे</p>
+        </div>
+        <div class="comment-container">
+            <h4>{{comments.length}} Comments</h4>
+            <div class="comment-input">
+                <img class="userIcon" [src]="photoURL">
+                <div class="comment-input-btn">
+                    <mat-form-field>
+                        <input [(ngModel)]="commentText" (input)="handleCommentTextChange($event)"
+                            placeholder="Add a Comment..." matInput>
+                    </mat-form-field>
+                    <div *ngIf="commentBtn" class="btn">
+                        <button mat-raised-button (click)="cancelComment()"> Cancel </button>
+                        <button (click)="handleComments()" color="primary" mat-raised-button [disabled]="commentText.length < 1"> Comment </button>
+                    </div>
+                </div>
+            </div>
+            <div *ngFor="let comment of comments">
+                <div class="comments">
+                    <img class="userIcon" [src]="comment.photoURL">
+                    <div class="comment">
+                        <p> <strong> &#64; {{comment.userName}}</strong> </p>
+                        <span>{{comment.commentText}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="related-video-container">
+        <div class="related-video">
+            <img src="https://i.ytimg.com/vi/hUsdzzIFhtY/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAwNBqiQe8BSeZ3LLeTnhhSnx8jww"
+                alt="">
+            <div class="video-title-container">
+                <h3>Love Mashup [ SLOWED+REVERB ] 50 Min Lofi</h3>
+                <p>AGH Facts</p>
+                <p>2.2M views <span>&middot;</span> 3 days ago</p>
+            </div>
+        </div>
+    </div>
+</div>

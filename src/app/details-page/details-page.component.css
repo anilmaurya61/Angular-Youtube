@@ -1,0 +1,132 @@
+.details-container {
+    margin: 1rem;
+    display: flex;
+    gap: 1rem;
+    /* flex-wrap: wrap; */
+}
+
+.video-container {
+    width: 56rem;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.video-details-container {
+    display: flex;
+    align-items: start;
+    align-items: center;
+    gap: 1rem;
+}
+
+.video-details-container img, .userIcon {
+    height: 3.5rem;
+    width: 3.5rem;
+    border-radius: 100%;
+    padding: 5px;
+}
+
+.video-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.video-title-h {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.video-title p {
+    margin: 0;
+}
+
+.subscribe-btn {
+    border-radius: 20px;
+    height: 2.5rem;
+}
+
+.like-btn-container {
+    display: flex;
+}
+
+.likebutton {
+    border-right: 1px solid black;
+    border-radius: 20px 0px 0px 20px;
+}
+
+.dislikebutton {
+    border-radius: 0px 20px 20px 0px;
+    background-color: rgb(242, 242, 242);
+}
+
+.related-video-container {
+    width: 100%;
+}
+
+.description-container {
+    width: 100%;
+    background-color: rgb(242, 242, 242);
+    border-radius: 20px;
+    margin-top: 1rem;
+}
+
+.views {
+    padding: 1rem;
+    font-size: 1.3rem;
+    font-weight: 400;
+    display: block;
+}
+
+.description {
+    padding: 1rem;
+
+}
+
+.comment-container {
+    height: 20rem;
+    width: 100%;
+    margin-top: 1rem;
+}
+.comment-input{
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    width: 100%;
+}
+.comment-container h4 {
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+.comment-input-btn mat-form-field {
+    display: block;
+    width: 700px;
+}
+.btn{
+    margin-left: 70%;
+    display: flex;
+    gap: 1rem;
+}
+.comments{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.related-video{
+    display: flex;
+    gap: 1rem;
+    margin: 1rem;
+}
+
+.related-video img{
+    width: 40%;
+    border-radius: 20px;
+}
+.related-video p{
+    color: grey;
+}

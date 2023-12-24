@@ -7,15 +7,15 @@
 
     <mat-drawer mode="side" opened="true">
         <div class="drawer-container">
-            <div>
+            <div [ngStyle]="{'background-color': tab === '' ? '#f2f2f2' : ''}" (click)="handleswitch('')">
                 <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
                 <span>Home</span>
             </div>
-            <div>
+            <div [ngStyle]="{'background-color': tab === 'subscription' ? '#f2f2f2' : ''}" (click)="handleswitch('subscription')">
                 <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="subscriptions"></mat-icon>
                 <span>Subscriptions</span>
             </div>
-            <div>
+            <div [ngStyle]="{'background-color': tab === 'videos' ? '#f2f2f2' : ''}" (click)="handleswitch('videos')">
                 <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="smart_display"></mat-icon>
                 <span>Your Videos</span>
             </div>
@@ -23,52 +23,59 @@
     </mat-drawer>
 
     <!-- Main -->
-    <mat-drawer-content class="video-container">
-        <div>
-            <iframe width="400" height="255" src="https://www.youtube.com/embed/h8YQFSvcAik?si=USxkUGjTIwOG1qis"
-                title="YouTube video player" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen>
-            </iframe>
-            <div class="video-details-container">
-                <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwaclfFtHZqMKuOD-nFf35LeQSlwL-M67Ow-XyzvmaeS747mSiaqzYWYc6FBUSXQXkuJk">
-                <div class="video-title">
-                    <p class="video-title-h">Bewafaa Tu Cover Video by Payal Panchal | Bewafa New Song 2023</p>
-                    <p>Payal Panchal Songs</p>
-                    <p>2.2M views <span>&middot;</span> 3 days ago</p>
+
+    <mat-drawer-content [ngSwitch]="tab">
+        <app-subscription *ngSwitchCase=" 'subscription' "></app-subscription>
+        <app-yourvideos *ngSwitchCase="'videos'"></app-yourvideos>
+
+        <div *ngSwitchDefault [ngStyle]="{'margin':'0 1rem'}" class="video-container">
+            <div>
+                <a href='/details'>
+                    <img [ngStyle]="{'height':'225px', 'width':'400px'}"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCPUu4vCmJXOYMCDS3DFeTrhN06sMom7-jQw">
+                </a>
+                <div class="video-details-container">
+
+                    <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwaclfFtHZqMKuOD-nFf35LeQSlwL-M67Ow-XyzvmaeS747mSiaqzYWYc6FBUSXQXkuJk">
+
+                    <div class="video-title" [routerLink]="['/details']">
+                        <p class="video-title-h">Bewafaa Tu Cover Video by Payal Panchal | Bewafa New Song 2023</p>
+                        <p>Payal Panchal Songs</p>
+                        <p>2.2M views <span>&middot;</span> 3 days ago</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div>
-            <iframe width="400" height="255" src="https://www.youtube.com/embed/q84aKrzLtLw?si=GwHJLrPPwiwSJeUJ"
-                title="YouTube video player" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen>
-            </iframe>
-            <div class="video-details-container">
-                <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwaclfFtHZqMKuOD-nFf35LeQSlwL-M67Ow-XyzvmaeS747mSiaqzYWYc6FBUSXQXkuJk">
-                <div class="video-title">
-                    <p class="video-title-h">Bewafaa Tu Cover Video by Payal Panchal | Bewafa New Song 2023</p>
-                    <p>Payal Panchal Songs</p>
-                    <p>2.2M views <span>&middot;</span> 3 days ago</p>
+            <div>
+                <iframe width="400" height="255" src="https://www.youtube.com/embed/q84aKrzLtLw?si=GwHJLrPPwiwSJeUJ"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                </iframe>
+                <div class="video-details-container">
+                    <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwaclfFtHZqMKuOD-nFf35LeQSlwL-M67Ow-XyzvmaeS747mSiaqzYWYc6FBUSXQXkuJk">
+                    <div class="video-title">
+                        <p class="video-title-h">Bewafaa Tu Cover Video by Payal Panchal | Bewafa New Song 2023</p>
+                        <p>Payal Panchal Songs</p>
+                        <p>2.2M views <span>&middot;</span> 3 days ago</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div>
-            <iframe width="400" height="255" src="https://www.youtube.com/embed/i6cgU1sY2mQ?si=pR3Hs5VTZwildzr-"
-                title="YouTube video player" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen>
-            </iframe>
-            <div class="video-details-container">
-                <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwaclfFtHZqMKuOD-nFf35LeQSlwL-M67Ow-XyzvmaeS747mSiaqzYWYc6FBUSXQXkuJk">
-                <div class="video-title">
-                    <p class="video-title-h">Bewafaa Tu Cover Video by Payal Panchal | Bewafa New Song 2023</p>
-                    <p>Payal Panchal Songs</p>
-                    <p>2.2M views <span>&middot;</span> 3 days ago</p>
+            <div>
+                <iframe width="400" height="255" src="https://www.youtube.com/embed/i6cgU1sY2mQ?si=pR3Hs5VTZwildzr-"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                </iframe>
+                <div class="video-details-container">
+                    <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwaclfFtHZqMKuOD-nFf35LeQSlwL-M67Ow-XyzvmaeS747mSiaqzYWYc6FBUSXQXkuJk">
+                    <div class="video-title">
+                        <p class="video-title-h">Bewafaa Tu Cover Video by Payal Panchal | Bewafa New Song 2023</p>
+                        <p>Payal Panchal Songs</p>
+                        <p>2.2M views <span>&middot;</span> 3 days ago</p>
+                    </div>
                 </div>
             </div>
         </div>

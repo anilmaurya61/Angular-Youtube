@@ -1,5 +1,5 @@
 <div class="header-component">
-    <img class="logo" src="../../../assets/youtube-logo.svg" alt="">
+    <a href="/"><img class="logo" src="../../../assets/youtube-logo.svg" alt=""></a>
     <div class="search-container">
         <input placeholder="Search" type="text">
         <button><mat-icon aria-hidden="false" aria-label="Search icon" fontIcon="search">search</mat-icon></button>
@@ -12,7 +12,6 @@
             <img [src]="photoUrl">
             <button mat-raised-button (click)="logout()">Log Out</button>
         </ng-template>
-
         <button *ngIf="!user; else loggedInTemplate" mat-raised-button (click)="login()">Login</button>
     </div>
 </div>
