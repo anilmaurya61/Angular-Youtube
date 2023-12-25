@@ -5,6 +5,9 @@ import {
     where,
     DocumentSnapshot,
     Timestamp,
+    getDoc,
+    updateDoc,
+    doc
 } from "firebase/firestore";
 import { db } from "./firbaseconfig";
 
@@ -19,6 +22,14 @@ export interface Video {
     time: Date;
     photoURL: string;
     channelName: string;
+    comments?:Comment[];
+}
+
+export interface Comment {
+    commentText: string;
+    photoURL: string;
+    userName: string;
+    timestamp?: any;
 }
 
 export async function fetchVideosByUserId(userId: string): Promise<Video[]> {
@@ -26,8 +37,8 @@ export async function fetchVideosByUserId(userId: string): Promise<Video[]> {
     const q = query(videosCollection, where("user_id", "==", userId));
 
     try {
-      const querySnapshot = await getDocs(q);
-      const videos:Video[] = [];
+        const querySnapshot = await getDocs(q);
+        const videos: Video[] = [];
 
         querySnapshot.forEach((doc: DocumentSnapshot) => {
             if (doc.exists()) {
@@ -42,7 +53,8 @@ export async function fetchVideosByUserId(userId: string): Promise<Video[]> {
                     tags: data['tag'],
                     time: (data['time'] as Timestamp).toDate(),
                     photoURL: data['photoURL'],
-                    channelName:data['channelName'],
+                    channelName: data['channelName'],
+                    comments: data['comments'],
                 };
                 videos.push(video);
             }
@@ -75,7 +87,7 @@ export async function fetchAllVideos(): Promise<Video[]> {
                     tags: data['tag'],
                     time: (data['time'] as Timestamp).toDate(),
                     photoURL: data['photoURL'],
-                    channelName:data['channelName'],
+                    channelName: data['channelName'],
                 };
                 videos.push(video);
             }
@@ -84,6 +96,42 @@ export async function fetchAllVideos(): Promise<Video[]> {
         return videos;
     } catch (error) {
         console.error("Error fetching videos: ", error);
+        throw error;
+    }
+}
+
+export async function addComment(comment: Comment, videoId: string): Promise<void> {
+    const videoDocument = doc(db, 'videos', videoId);
+    try {
+        const docSnapshot = await getDoc(videoDocument);
+        const existingComments = docSnapshot.data()?.['comments'] || [];
+        console.log("rt", existingComments)
+        const newComment = {
+            commentText: comment.commentText,
+            photoURL: comment.photoURL,
+            userName: comment.userName,
+            timestamp: new Date(),
+        };
+
+        const updatedComments = [...existingComments, newComment];
+
+        await updateDoc(videoDocument, {
+            comments: updatedComments
+        });
+    } catch (error) {
+        console.error('Error adding comment: ', error);
+        throw error;
+    }
+}
+
+export async function getComments(videoId: string): Promise<Comment[]> {
+    const videoDocument = doc(db, 'videos', videoId);
+    try {
+        const docSnapshot = await getDoc(videoDocument);
+        const Comments = docSnapshot.data()?.['comments'] || [];
+        return Comments;
+    } catch (error) {
+        console.error('Error getting comments: ', error);
         throw error;
     }
 }

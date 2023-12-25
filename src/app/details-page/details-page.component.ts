@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef  } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { HeaderComponent } from "../Components/header/header.component";
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../services/authentication.service';
 import { UploadVideoComponent } from "../Components/upload-video/upload-video.component";
-import { fetchVideosByUserId, Video } from '../firebase/firestore'
+import { fetchVideosByUserId, Video, addComment, getComments, Comment } from '../firebase/firestore'
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -26,7 +26,7 @@ export class DetailsPageComponent {
     user: any;
     photoURL: string = '';
     userName: string = '';
-    comments: any[] = [];
+    comments: Comment[] = [];
     likesCount: number = 0;
     uploadVideoPopup = true;
     videos: any[] = [];
@@ -35,10 +35,10 @@ export class DetailsPageComponent {
     currentVideos: any[] = [];
 
     constructor(
-        private authService: AuthService, 
+        private authService: AuthService,
         private route: ActivatedRoute,
         private cdr: ChangeDetectorRef
-        ) { }
+    ) { }
 
     async ngOnInit() {
         this.user = await this.authService.getUser();
@@ -54,7 +54,8 @@ export class DetailsPageComponent {
                 this.videos = videos.filter(v => v.id != this.videoId);
                 let video = videos.find(v => v.id === this.videoId)
                 this.currentVideos[0] = video;
-                console.log(this.currentVideos, video);
+                this.comments = this.currentVideos[0]?.comments;
+                console.log("hello",this.currentVideos[0], video);
             })
             .catch((error: any) => {
                 console.error('Error fetching videos: ', error);
@@ -62,7 +63,7 @@ export class DetailsPageComponent {
     }
     handleCurrentVideo(id: string) {
         let video = this.videos.find(v => v.id === id)
-        this.currentVideos[0] = video;   
+        this.currentVideos[0] = video;
         console.log(this.currentVideos);
     }
     handleUploadVideoPopup() {
@@ -88,17 +89,19 @@ export class DetailsPageComponent {
         this.commentText = "";
     }
 
-    handleComments() {
+    async handleComments() {
         if (this.commentText.trim().length > 0) {
-            this.comments.push({
-                "videoId": this.currentVideos[0].id,
-                "commentText": this.commentText,
-                "photoURL": this.photoURL,
-                "userName": this.userName
-            })
+            await addComment({
+                commentText: this.commentText,
+                photoURL: this.photoURL,
+                userName: this.userName,
+            }, this.currentVideos[0].id);
         }
         this.commentText = "";
         this.commentBtn = false;
-        console.log(this.comments);
+
+        const comments = await getComments(this.currentVideos[0].id);
+        this.comments = comments;
+        console.log('Comments:', comments);
     }
 }
