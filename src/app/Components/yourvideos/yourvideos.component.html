@@ -1,1 +1,17 @@
-<p>yourvideos works!</p>
+<div class="your-videos-container">
+    <div *ngIf="user; else loginSection" class="related-video-container">
+        <div *ngFor="let video of videos" class="related-video">
+            <div class="videos" [routerLink]="['/details' , video.user_id, video.id ]">
+                <img [src]="video.thumbnail" alt="">
+                <div class="video-title-container">
+                    <h3>{{video.title}}</h3>
+                    <p>2.2M views <span>&middot;</span> 3 days ago</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template class="loginSection" #loginSection>
+        <p>Please log in to view videos.</p>
+    </ng-template>
+</div>

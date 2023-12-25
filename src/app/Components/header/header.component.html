@@ -1,11 +1,11 @@
 <div class="header-component">
     <a href="/"><img class="logo" src="../../../assets/youtube-logo.svg" alt=""></a>
     <div class="search-container">
-        <input placeholder="Search" type="text">
-        <button><mat-icon aria-hidden="false" aria-label="Search icon" fontIcon="search">search</mat-icon></button>
+        <input [value]="searchText" (input)="handleSearchtextChange($event)" (keyup.enter)="handleSearch()" placeholder="Search" type="text">
+        <button  (click)="handleSearch()"><mat-icon aria-hidden="false" aria-label="Search icon" fontIcon="search">search</mat-icon></button>
     </div>
     <div class="videocall">
-        <button (click)="handleAddVideo()" mat-fab color="grey" aria-label="Video Call">
+        <button *ngIf="user" (click)="handleAddVideo()" mat-fab color="grey" aria-label="Video Call">
             <mat-icon [ngStyle]="{'display':'block'}">video_call</mat-icon>
         </button>
         <ng-template #loggedInTemplate>

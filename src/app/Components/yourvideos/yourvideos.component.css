@@ -1,3 +1,35 @@
-p{
-    height: 700px;
+.related-video-container {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    background-color: white;
+
+}
+.videos{
+    width: 23rem;
+
+}
+.related-video {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.related-video img {
+    width: 100%;
+    border-radius: 20px;
+}
+.video-title-container{
+    width: 100%;
+}
+.related-video p {
+    color: grey;
+    width: 100%;
+}
+
+.your-videos-container{
+    min-height: 100vh;
 }

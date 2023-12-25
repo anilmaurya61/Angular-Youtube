@@ -2,8 +2,9 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatIconModule} from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { AuthService } from '../../authentication.service';
+import { AuthService } from '../../services/authentication.service';
 import { RouterModule } from '@angular/router'; 
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -16,21 +17,31 @@ export class HeaderComponent {
   user: any;
   photoUrl: string = "";
   name: string = "admin";
+  searchText: string = "";
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   @Output()
   addVideo = new EventEmitter<any>();
+
+  @Output()
+  searchVideos = new EventEmitter<any>();
 
   async ngOnInit() {
     try {
       this.user = await this.authService.getUser();
       this.photoUrl = this.user.photoURL;
-      console.log(this.photoUrl);
-      console.log("Hello",this.user);
     } catch (error) {
       console.log(error);
     }
+  }
+
+  public handleSearchtextChange(event:any){
+    this.searchText = event.target.value;
+  }
+  public handleSearch(){
+    this.searchVideos.emit(this.searchText)
+    this.router.navigate(['/']);
   }
 
   public handleAddVideo(){

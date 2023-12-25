@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { app } from '../../src/app/firebase/firbaseconfig'; 
+import { app } from '../firebase/firbaseconfig'; 
 import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
 
 @Injectable({
@@ -29,7 +29,6 @@ export class AuthService {
       return this.user;
     } catch (error) {
       console.log(error);
-      throw error;
     }
   }
 

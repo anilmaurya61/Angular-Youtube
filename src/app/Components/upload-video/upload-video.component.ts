@@ -7,6 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { db } from '../../firebase/firbaseconfig'
+import { AuthService } from '../../services/authentication.service';
+
 
 @Component({
   selector: 'app-upload-video',
@@ -27,6 +29,10 @@ export class UploadVideoComponent {
   tags: any = '';
   isUploading: boolean = false;
   error: boolean = false;
+  user:any;
+
+  constructor(private authService: AuthService) {}
+
 
   getId() {
     return new Date().getTime().toString();
@@ -88,6 +94,8 @@ export class UploadVideoComponent {
       };
 
       try {
+        this.user = await this.authService.getUser();
+        console.log(this.user);
         await uploadBytes(storageRefThumbnail, this.thumbnailFile, metadataThumbnail);
         await uploadBytes(storageRefVideo, this.videoFile, metadata);
 
@@ -95,7 +103,7 @@ export class UploadVideoComponent {
         const videoDownloadURL = await getDownloadURL(storageRefVideo);
 
         const videoRef = await addDoc(collection(db, "videos"), {
-          // user_id: userId,
+          user_id: this.user.uid,
           id: this.getId(),
           title: this.title,
           description: this.description,
@@ -103,14 +111,11 @@ export class UploadVideoComponent {
           video: videoDownloadURL,
           tag: this.tags,
           time: new Date(),
+          photoURL: this.user.photoURL,
+          channelName: this.user.displayName,
         });
         console.log("Uploaded Successfully")
-        this.title = '';
-        this.description = '';
-        this.tags = '';
-        this.isUploading = false;
         this.closeAddvideo.emit();
-
       } catch (error) {
         console.error('Error uploading video:', error);
         this.isUploading = false;
