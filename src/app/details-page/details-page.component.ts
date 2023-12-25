@@ -91,6 +91,7 @@ export class DetailsPageComponent {
     handleComments() {
         if (this.commentText.trim().length > 0) {
             this.comments.push({
+                "videoId": this.currentVideos[0].id,
                 "commentText": this.commentText,
                 "photoURL": this.photoURL,
                 "userName": this.userName
