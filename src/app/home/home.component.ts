@@ -9,6 +9,7 @@ import { SubscriptionComponent } from "../Components/subscription/subscription.c
 import { YourvideosComponent } from "../Components/yourvideos/yourvideos.component";
 import { RouterModule } from '@angular/router';
 import { fetchAllVideos, Video } from '../firebase/firestore'
+import { formatDistanceToNow } from "date-fns";
 
 
 @Component({
@@ -30,20 +31,26 @@ export class HomeComponent {
 
     constructor(private authService: AuthService) { }
 
-    ngOnInit() {
-        fetchAllVideos()
-            .then((videos: Video[]) => {
-                this.videos = videos;
-                this.filteredVideos = videos;
-                console.log(this.videos);
-            })
-            .catch(error => {
-                console.error('Error fetching videos: ', error);
-            });
+    async ngOnInit() {
+        try {
+            const videos: Video[] = await fetchAllVideos();
+            this.videos = videos;
+            this.filteredVideos = videos;
+        } catch (error) {
+            console.error('Error fetching videos: ', error);
+        }
     }
 
-    searchVideos(searchText:string) {
-        console.log(searchText);
+    async handlefetchAllVideos() {
+        try {
+            const videos: Video[] = await fetchAllVideos();
+            this.videos = videos;
+            this.filteredVideos = videos;
+        } catch (error) {
+            console.error('Error fetching videos: ', error);
+        }
+    }
+    searchVideos(searchText: string) {
 
         const query = searchText.toLowerCase();
 
@@ -66,5 +73,10 @@ export class HomeComponent {
 
     logout(): void {
         this.authService.logout();
+    }
+
+    timeStamp(dateObj: any) {
+        const formattedDate = formatDistanceToNow(dateObj, { addSuffix: true });
+        return formattedDate;
     }
 }

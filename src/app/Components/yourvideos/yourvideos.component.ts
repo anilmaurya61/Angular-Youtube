@@ -28,7 +28,6 @@ export class YourvideosComponent {
       this.user = await this.authService.getUser();
       const videos = await fetchVideosByUserId(this.user?.uid);
       this.videos = videos;
-      console.log(this.videos);
     } catch (error) {
       console.error('Error fetching videos: ', error);
     }

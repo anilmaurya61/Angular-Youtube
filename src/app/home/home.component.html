@@ -1,9 +1,10 @@
 <app-header (searchVideos)="searchVideos($event)" (addVideo)="handleUploadVideoPopup()"></app-header>
 
-<app-upload-video *ngIf="!uploadVideoPopup" (closeAddvideo)="handleUploadVideoPopup()"></app-upload-video>
+<app-upload-video (videoUploaded)="handlefetchAllVideos()" *ngIf="!uploadVideoPopup"
+    (closeAddvideo)="handleUploadVideoPopup()"></app-upload-video>
 
 <mat-drawer-container class="example-container">
-    
+
     <!-- Drawer -->
     <mat-drawer mode="side" opened="true">
         <div class="drawer-container">
@@ -40,7 +41,7 @@
                     <div class="video-title" [routerLink]="['/details' , video.user_id, video.id ]">
                         <p class="video-title-h">{{video.title}}</p>
                         <p>{{video.channelName}}</p>
-                        <p>2.2M views <span>&middot;</span> 3 days ago</p>
+                        <p>{{timeStamp(video.time)}}</p>
                     </div>
                 </div>
             </div>

@@ -13,9 +13,10 @@
                 <img [src]="currentVideo.photoURL">
                 <div class="video-title">
                     <p>{{ currentVideo?.channelName}}</p>
-                    <p>2.2M views <span>&middot;</span> 3 days ago</p>
+                    <p>{{timeStamp(currentVideo.time)}}</p>
                 </div>
-                <button *ngIf="currentVideo.user_id != user?.uid" mat-raised-button class="subscribe-btn">Subscribe</button>
+                <button *ngIf="currentVideo.user_id != user?.uid" mat-raised-button
+                    class="subscribe-btn">Subscribe</button>
             </div>
             <div class="like-btn-container">
                 <button (click)="handlelikeUP()" mat-raised-button class="likebutton">
@@ -28,7 +29,7 @@
             </div>
         </div>
         <div class="description-container">
-            <p class="views">286,898 views Premiered Nov 18, 2023</p>
+            <p class="views">{{ currentVideo.tags}}</p>
             <p class="description">{{ currentVideo?.description }}</p>
         </div>
         <div class="comment-container">
@@ -38,12 +39,13 @@
                 <div class="comment-input-btn">
                     <mat-form-field>
                         <input (keyup.enter)="handleComments()" [(ngModel)]="commentText"
-                            (input)="handleCommentTextChange($event)" placeholder="Add a Comment..." matInput>
+                            (input)="handleCommentTextChange($event)"  [placeholder]="user ? 'Add a Comment...' : 'Login to Comment'" matInput>
                     </mat-form-field>
                     <div *ngIf="commentBtn" class="btn">
-                        <button mat-raised-button (click)="cancelComment()"> Cancel </button>
+                        <button *ngIf="user" mat-raised-button (click)="cancelComment()"> Cancel </button>
                         <button *ngIf="user" (click)="handleComments()" color="primary" mat-raised-button
                             [disabled]="commentText.length < 1"> Comment </button>
+                        <!-- <ng-template #loginTemplate><button mat-raised-button (click)="handLogintoComment()">Login to Comment</button></ng-template> -->
                     </div>
                 </div>
             </div>
@@ -51,21 +53,20 @@
                 <div class="comments">
                     <img class="userIcon" [src]="comment.photoURL">
                     <div class="comment">
-                        <p> <strong> &#64; {{comment.userName}}</strong> </p>
+                        <p> <strong> &#64; {{comment.userName}}</strong> {{timeStamp(comment.timestamp.toDate())}}</p>
                         <span>{{comment.commentText}}</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div  class="related-video-container">
-        <div *ngFor="let video of videos" class="related-video">
-            <img (click)="handleCurrentVideo(video.id)" [src]=" video.thumbnail"
-                alt="">
+    <div class="related-video-container">
+        <div *ngFor="let video of relatedVideos" class="related-video">
+            <img (click)="handleCurrentVideo(video.id)" [src]=" video.thumbnail" alt="">
             <div (click)="handleCurrentVideo(video.id)" class="video-title-container">
                 <h3>{{video.title}}</h3>
                 <p>{{video.channelName}}</p>
-                <p>2.2M views <span>&middot;</span> 3 days ago</p>
+                <p>{{timeStamp(video.time)}}</p>
             </div>
         </div>
     </div>

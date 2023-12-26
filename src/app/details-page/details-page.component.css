@@ -3,7 +3,6 @@
     display: flex;
     gap: 1rem;
     justify-content: space-between;
-    /* flex-wrap: wrap; */
 }
 
 .video-container {
@@ -116,6 +115,9 @@
     gap: 1rem;
     align-items: center;
     margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: rgb(242,242,242);
 }
 
 .related-video{

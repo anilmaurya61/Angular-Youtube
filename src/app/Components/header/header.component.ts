@@ -30,7 +30,7 @@ export class HeaderComponent {
   async ngOnInit() {
     try {
       this.user = await this.authService.getUser();
-      this.photoUrl = this.user.photoURL;
+      this.photoUrl = this.user?.photoURL;
     } catch (error) {
       console.log(error);
     }
@@ -50,10 +50,8 @@ export class HeaderComponent {
 
   public async login() {
       await this.authService.login();
-      console.log("Login");
       this.user = await this.authService.getUser();
       this.photoUrl = this.user.photoURL;
-      console.log("Login",this.user.photoURL)
   }
 
   async logout() {

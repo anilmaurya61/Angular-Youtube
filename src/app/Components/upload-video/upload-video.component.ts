@@ -22,6 +22,9 @@ export class UploadVideoComponent {
   @Output()
   closeAddvideo = new EventEmitter<any>();
 
+  @Output()
+  videoUploaded = new EventEmitter<any>();
+
   thumbnailFile: any;
   videoFile: any;
   title: string = '';
@@ -95,7 +98,6 @@ export class UploadVideoComponent {
 
       try {
         this.user = await this.authService.getUser();
-        console.log(this.user);
         await uploadBytes(storageRefThumbnail, this.thumbnailFile, metadataThumbnail);
         await uploadBytes(storageRefVideo, this.videoFile, metadata);
 
@@ -114,6 +116,7 @@ export class UploadVideoComponent {
           photoURL: this.user.photoURL,
           channelName: this.user.displayName,
         });
+        this.videoUploaded.emit();
         console.log("Uploaded Successfully")
         this.closeAddvideo.emit();
       } catch (error) {

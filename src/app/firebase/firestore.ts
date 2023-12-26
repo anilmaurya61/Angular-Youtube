@@ -106,7 +106,6 @@ export async function addComment(comment: Comment, videoId: string): Promise<voi
     try {
         const docSnapshot = await getDoc(videoDocument);
         const existingComments = docSnapshot.data()?.['comments'] || [];
-        console.log("rt", existingComments)
         const newComment = {
             commentText: comment.commentText,
             photoURL: comment.photoURL,
@@ -114,7 +113,7 @@ export async function addComment(comment: Comment, videoId: string): Promise<voi
             timestamp: new Date(),
         };
 
-        const updatedComments = [...existingComments, newComment];
+        const updatedComments = [newComment, ...existingComments ];
 
         await updateDoc(videoDocument, {
             comments: updatedComments

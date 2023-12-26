@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { app } from '../firebase/firbaseconfig'; 
+import { app } from '../firebase/firbaseconfig';
 import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
 
 @Injectable({
@@ -7,9 +7,9 @@ import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, onAuthStateChang
 })
 export class AuthService {
   private auth = getAuth(app);
-  public user:any;
+  public user: any;
 
-  constructor() {}
+  constructor() { }
 
   private async getCurrentUser(): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -34,22 +34,22 @@ export class AuthService {
 
   async login() {
     const provider = new GoogleAuthProvider();
-    await signInWithPopup(this.auth, provider)
-      .then((result) => {
-        console.log("SignIn successfully",)
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    try {
+      await signInWithPopup(this.auth, provider)
+      console.log("SignIn successfully")
+    }
+    catch (error) {
+      console.log(error);
+    };
   }
 
   async logout() {
-    await signOut(this.auth)
-      .then(() => {
-        console.log('logged out');
-      })
-      .catch((error) => {
-        console.log("LogOut failed")
-      });
+    try {
+      await signOut(this.auth)
+      console.log('logged out');
+    }
+    catch (error) {
+      console.log("LogOut failed")
+    };
   }
 }

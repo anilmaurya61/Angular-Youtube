@@ -11,6 +11,7 @@ import { AuthService } from '../services/authentication.service';
 import { UploadVideoComponent } from "../Components/upload-video/upload-video.component";
 import { fetchVideosByUserId, Video, addComment, getComments, Comment } from '../firebase/firestore'
 import { ActivatedRoute } from '@angular/router';
+import { formatDistanceToNow } from "date-fns";
 
 @Component({
     selector: 'app-details-page',
@@ -33,6 +34,7 @@ export class DetailsPageComponent {
     userId: string = '';
     videoId: string = '';
     currentVideos: any[] = [];
+    relatedVideos: any[] = [];
 
     constructor(
         private authService: AuthService,
@@ -51,21 +53,20 @@ export class DetailsPageComponent {
         });
 
         try {
-            const videos: Video[] = await fetchVideosByUserId(this.userId);
-            this.videos = videos.filter(v => v.id !== this.videoId);
-            this.currentVideos[0] = videos.find(v => v.id === this.videoId);
+            this.videos = await fetchVideosByUserId(this.userId);
+            this.relatedVideos = this.videos.filter(v => v.id !== this.videoId);
+            this.currentVideos[0] = this.videos.find(v => v.id === this.videoId);
             this.comments = this.currentVideos[0]?.comments || [];
-            console.log('hello', this.currentVideos[0]?.comments);
         } catch (error) {
             console.error('Error fetching videos: ', error);
         }
     }
 
     handleCurrentVideo(id: string) {
+        this.relatedVideos = this.videos.filter(v => v.id !== id)
         let video = this.videos.find(v => v.id === id)
         this.currentVideos[0] = video;
         this.comments = this.currentVideos[0].comments;
-        console.log(this.currentVideos);
     }
     handleUploadVideoPopup() {
         this.uploadVideoPopup = !this.uploadVideoPopup;
@@ -89,7 +90,14 @@ export class DetailsPageComponent {
         this.commentBtn = false;
         this.commentText = "";
     }
-
+    timeStamp(dateObj: any) {
+        const formattedDate = formatDistanceToNow(dateObj, { addSuffix: true });
+        return formattedDate;
+    }
+    async handLogintoComment(){
+        await this.authService.login();
+        this.user = await this.authService.getUser();
+    }
     async handleComments() {
         if (this.commentText.trim().length > 0) {
             await addComment({
@@ -103,6 +111,5 @@ export class DetailsPageComponent {
 
         const comments = await getComments(this.currentVideos[0].id);
         this.comments = comments;
-        console.log('Comments:', comments);
     }
 }
