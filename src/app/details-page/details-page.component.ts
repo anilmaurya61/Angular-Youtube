@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { HeaderComponent } from "../Components/header/header.component";
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -36,34 +36,35 @@ export class DetailsPageComponent {
 
     constructor(
         private authService: AuthService,
-        private route: ActivatedRoute,
-        private cdr: ChangeDetectorRef
+        private route: ActivatedRoute
     ) { }
 
     async ngOnInit() {
         this.user = await this.authService.getUser();
-        this.photoURL = this.user?.photoURL;
-        this.userName = this.user?.displayName
+        this.photoURL = this.user?.photoURL || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2yJWVwI9ZFnJhI3FIB5wIK4Ys7B8J-u5hfQ';
+        this.userName = this.user?.displayName;
+
         this.route.params.subscribe(params => {
             this.userId = params['id'];
             this.videoId = params['videoId'];
             console.log('User ID:', this.userId);
         });
-        fetchVideosByUserId(this.userId)
-            .then((videos: Video[]) => {
-                this.videos = videos.filter(v => v.id != this.videoId);
-                let video = videos.find(v => v.id === this.videoId)
-                this.currentVideos[0] = video;
-                this.comments = this.currentVideos[0]?.comments;
-                console.log("hello",this.currentVideos[0], video);
-            })
-            .catch((error: any) => {
-                console.error('Error fetching videos: ', error);
-            });
+
+        try {
+            const videos: Video[] = await fetchVideosByUserId(this.userId);
+            this.videos = videos.filter(v => v.id !== this.videoId);
+            this.currentVideos[0] = videos.find(v => v.id === this.videoId);
+            this.comments = this.currentVideos[0]?.comments || [];
+            console.log('hello', this.currentVideos[0]?.comments);
+        } catch (error) {
+            console.error('Error fetching videos: ', error);
+        }
     }
+
     handleCurrentVideo(id: string) {
         let video = this.videos.find(v => v.id === id)
         this.currentVideos[0] = video;
+        this.comments = this.currentVideos[0].comments;
         console.log(this.currentVideos);
     }
     handleUploadVideoPopup() {

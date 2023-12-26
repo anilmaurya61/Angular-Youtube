@@ -15,7 +15,7 @@
                     <p>{{ currentVideo?.channelName}}</p>
                     <p>2.2M views <span>&middot;</span> 3 days ago</p>
                 </div>
-                <button *ngIf="currentVideo.user_id != user.uid" mat-raised-button class="subscribe-btn">Subscribe</button>
+                <button *ngIf="currentVideo.user_id != user?.uid" mat-raised-button class="subscribe-btn">Subscribe</button>
             </div>
             <div class="like-btn-container">
                 <button (click)="handlelikeUP()" mat-raised-button class="likebutton">
@@ -31,7 +31,7 @@
             <p class="views">286,898 views Premiered Nov 18, 2023</p>
             <p class="description">{{ currentVideo?.description }}</p>
         </div>
-        <div *ngIf="user" class="comment-container">
+        <div class="comment-container">
             <h4>{{comments.length}} Comments</h4>
             <div class="comment-input">
                 <img class="userIcon" [src]="photoURL">
@@ -42,7 +42,7 @@
                     </mat-form-field>
                     <div *ngIf="commentBtn" class="btn">
                         <button mat-raised-button (click)="cancelComment()"> Cancel </button>
-                        <button (click)="handleComments()" color="primary" mat-raised-button
+                        <button *ngIf="user" (click)="handleComments()" color="primary" mat-raised-button
                             [disabled]="commentText.length < 1"> Comment </button>
                     </div>
                 </div>

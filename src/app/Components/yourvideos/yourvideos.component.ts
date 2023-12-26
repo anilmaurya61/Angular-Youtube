@@ -26,7 +26,7 @@ export class YourvideosComponent {
   private async loadData() {
     try {
       this.user = await this.authService.getUser();
-      const videos = await fetchVideosByUserId(this.user.uid);
+      const videos = await fetchVideosByUserId(this.user?.uid);
       this.videos = videos;
       console.log(this.videos);
     } catch (error) {

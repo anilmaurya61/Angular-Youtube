@@ -22,7 +22,7 @@ export interface Video {
     time: Date;
     photoURL: string;
     channelName: string;
-    comments?:Comment[];
+    comments?:any[];
 }
 
 export interface Comment {
@@ -54,7 +54,7 @@ export async function fetchVideosByUserId(userId: string): Promise<Video[]> {
                     time: (data['time'] as Timestamp).toDate(),
                     photoURL: data['photoURL'],
                     channelName: data['channelName'],
-                    comments: data['comments'],
+                    comments: data['comments'] || [],
                 };
                 videos.push(video);
             }
@@ -88,6 +88,7 @@ export async function fetchAllVideos(): Promise<Video[]> {
                     time: (data['time'] as Timestamp).toDate(),
                     photoURL: data['photoURL'],
                     channelName: data['channelName'],
+                    comments: data['comments'] || [],
                 };
                 videos.push(video);
             }

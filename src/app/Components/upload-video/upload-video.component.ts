@@ -79,8 +79,8 @@ export class UploadVideoComponent {
     if (this.videoFile) {
 
       this.isUploading = true;
-      const thumbnailPath = 'Images/' + this.thumbnailFile.name
-      const videoPath = 'videos/' + this.videoFile.name;
+      const thumbnailPath = 'Images/' + this.getId();
+      const videoPath = 'videos/' + this.getId();
 
       const storage = getStorage();
       const storageRefThumbnail = ref(storage, thumbnailPath);
@@ -103,7 +103,7 @@ export class UploadVideoComponent {
         const videoDownloadURL = await getDownloadURL(storageRefVideo);
 
         const videoRef = await addDoc(collection(db, "videos"), {
-          user_id: this.user.uid,
+          user_id: this.user?.uid,
           id: this.getId(),
           title: this.title,
           description: this.description,
