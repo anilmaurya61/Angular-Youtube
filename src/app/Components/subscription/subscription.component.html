@@ -1,4 +1,4 @@
-<div [ngStyle]="{'margin':'0 1rem'}" class="video-container">
+<div *ngIf="user; else messageTemplate" [ngStyle]="{'margin':'0 1rem'}" class="video-container">
     <div *ngIf="videos?.length === 0; else videoList">
         <p class="notsubscribe">You have not subscribed to any channel.</p>
     </div>
@@ -18,3 +18,9 @@
         </div>
     </ng-template>
 </div>
+<div class="loader" *ngIf="isLoading">
+    <img [src]="loadingImage" alt="">
+</div>
+<ng-template  #messageTemplate>
+    <p [ngStyle]="{'height':'85vh'}">Please Login to view Subscription videos</p>
+</ng-template>

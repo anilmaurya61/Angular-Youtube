@@ -16,12 +16,16 @@ import { RouterModule } from '@angular/router';
 export class SubscriptionComponent {
 
   videos:any;
+  user:any;
+  loadingImage='../../../assets/loading.gif';
+  isLoading=false;
 
   constructor(private authService: AuthService) { };
 
   async ngOnInit() {
-    const user = await this.authService.getUser();
-    const subscription = await getSubscription(user.uid);
+    this.isLoading = true;
+   this.user = await this.authService.getUser();
+    const subscription = await getSubscription(this.user?.uid);
     if (subscription && subscription['channelIds']) {
       const channelIds = subscription['channelIds'];
 
@@ -30,6 +34,7 @@ export class SubscriptionComponent {
 
       this.videos = this.videos.flat();
     }
+    this.isLoading = false;
   }
 
   timeStamp(dateObj: any) {
