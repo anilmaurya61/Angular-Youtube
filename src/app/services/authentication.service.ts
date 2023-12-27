@@ -36,6 +36,7 @@ export class AuthService {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(this.auth, provider)
+      window.location.reload();
       console.log("SignIn successfully")
     }
     catch (error) {
@@ -46,6 +47,7 @@ export class AuthService {
   async logout() {
     try {
       await signOut(this.auth)
+      window.location.reload();
       console.log('logged out');
     }
     catch (error) {

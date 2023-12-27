@@ -48,9 +48,9 @@
                     </mat-form-field>
                     <div *ngIf="commentBtn" class="btn">
                         <button *ngIf="user" mat-raised-button (click)="cancelComment()"> Cancel </button>
-                        <button *ngIf="user" (click)="handleComments()" color="primary" mat-raised-button
+                        <button *ngIf="user; else loginTemplate" (click)="handleComments()" color="primary" mat-raised-button
                             [disabled]="commentText.length < 1"> Comment </button>
-                        <!-- <ng-template #loginTemplate><button mat-raised-button (click)="handLogintoComment()">Login to Comment</button></ng-template> -->
+                        <ng-template #loginTemplate><button mat-raised-button (click)="handLogintoComment()">Login to Comment</button></ng-template>
                     </div>
                 </div>
             </div>
