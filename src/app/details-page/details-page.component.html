@@ -15,15 +15,19 @@
                     <p>{{ currentVideo?.channelName}}</p>
                     <p>{{timeStamp(currentVideo.time)}}</p>
                 </div>
-                <button *ngIf="currentVideo.user_id != user?.uid" mat-raised-button
-                    class="subscribe-btn">Subscribe</button>
+                <div *ngIf="currentVideo.user_id != user?.uid">
+                    <button *ngIf="!isSubscribed" mat-raised-button (click)="handleSubscribe(currentVideo.user_id, user?.uid)"
+                        class="subscribe-btn">Subscribe</button>
+                    <button *ngIf="isSubscribed" mat-raised-button (click)="handleUnsubscribe(currentVideo.user_id, user?.uid)"
+                        class="subscribe-btn">Unsubscribe</button>
+                </div>
             </div>
             <div class="like-btn-container">
-                <button (click)="handlelikeUP()" mat-raised-button class="likebutton">
+                <button (click)="handlelike('like')" mat-raised-button class="likebutton">
                     <mat-icon aria-hidden="false" aria-label="Like icon" fontIcon="thumb_up"></mat-icon>
                     {{likesCount}}
                 </button>
-                <button (click)="handlelikeDOWN()" mat-raised-button class="dislikebutton">
+                <button (click)="handlelike('dislike')" mat-raised-button class="dislikebutton">
                     <mat-icon aria-hidden="false" aria-label="Dislike icon" fontIcon="thumb_down"></mat-icon>
                 </button>
             </div>
@@ -39,7 +43,8 @@
                 <div class="comment-input-btn">
                     <mat-form-field>
                         <input (keyup.enter)="handleComments()" [(ngModel)]="commentText"
-                            (input)="handleCommentTextChange($event)"  [placeholder]="user ? 'Add a Comment...' : 'Login to Comment'" matInput>
+                            (input)="handleCommentTextChange($event)"
+                            [placeholder]="user ? 'Add a Comment...' : 'Login to Comment'" matInput>
                     </mat-form-field>
                     <div *ngIf="commentBtn" class="btn">
                         <button *ngIf="user" mat-raised-button (click)="cancelComment()"> Cancel </button>

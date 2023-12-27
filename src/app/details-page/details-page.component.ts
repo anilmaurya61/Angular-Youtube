@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../services/authentication.service';
 import { UploadVideoComponent } from "../Components/upload-video/upload-video.component";
-import { fetchVideosByUserId, Video, addComment, getComments, Comment } from '../firebase/firestore'
+import {addLike, removeSubscription, getSubscription, fetchVideosByUserId, addSubscription, addComment, getComments, Comment } from '../firebase/firestore'
 import { ActivatedRoute } from '@angular/router';
 import { formatDistanceToNow } from "date-fns";
 
@@ -35,6 +35,8 @@ export class DetailsPageComponent {
     videoId: string = '';
     currentVideos: any[] = [];
     relatedVideos: any[] = [];
+    subscribe: any;
+    isSubscribed: boolean = false;
 
     constructor(
         private authService: AuthService,
@@ -57,29 +59,36 @@ export class DetailsPageComponent {
             this.relatedVideos = this.videos.filter(v => v.id !== this.videoId);
             this.currentVideos[0] = this.videos.find(v => v.id === this.videoId);
             this.comments = this.currentVideos[0]?.comments || [];
+            this.likesCount = this.currentVideos[0].likesCount || 0;
         } catch (error) {
             console.error('Error fetching videos: ', error);
         }
+
+        this.subscribe = await getSubscription(this.user?.uid);
+        this.isSubscribed = this.subscribe?.channelIds.includes(this.currentVideos[0].user_id) || false;
+
     }
 
     handleCurrentVideo(id: string) {
         this.relatedVideos = this.videos.filter(v => v.id !== id)
         let video = this.videos.find(v => v.id === id)
         this.currentVideos[0] = video;
-        this.comments = this.currentVideos[0].comments;
+        this.comments = this.currentVideos[0].comments || [];
+        this.likesCount = this.currentVideos[0].likesCount || 0;
     }
     handleUploadVideoPopup() {
         this.uploadVideoPopup = !this.uploadVideoPopup;
     }
 
-    handlelikeUP() {
+    async handlelike(action: string) {
+        await addLike(this.currentVideos[0].id, action)
+       if(action === 'like'){
         this.likesCount++;
-    }
-
-    handlelikeDOWN() {
+       }
+       else{
         this.likesCount--;
+       }
     }
-
     handleCommentTextChange(event: any): void {
         this.commentBtn = true;
         this.commentText = event.target.value;
@@ -94,7 +103,17 @@ export class DetailsPageComponent {
         const formattedDate = formatDistanceToNow(dateObj, { addSuffix: true });
         return formattedDate;
     }
-    async handLogintoComment(){
+
+    async handleSubscribe(channelId: string, userId: string) {
+        await addSubscription(channelId, userId);
+        this.isSubscribed = true;
+    }
+
+    async handleUnsubscribe(channelId: string, userId: string) {
+        await removeSubscription(channelId, userId);
+        this.isSubscribed = false;
+    }
+    async handLogintoComment() {
         await this.authService.login();
         this.user = await this.authService.getUser();
     }

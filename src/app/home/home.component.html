@@ -31,20 +31,26 @@
         <app-yourvideos *ngSwitchCase="'videos'"></app-yourvideos>
 
         <div *ngSwitchDefault [ngStyle]="{'margin':'0 1rem'}" class="video-container">
-            <div *ngFor="let video of filteredVideos">
-                <div [routerLink]="['/details' , video.user_id, video.id ]">
-                    <img [ngStyle]="{'height':'225px', 'width':'400px', 'cursor':'pointer'}" [src]="video.thumbnail">
-                </div>
-                <div class="video-details-container">
-                    <img [src]="video.photoURL">
+            <div [ngStyle]="{'height':'90vh'}" *ngIf="filteredVideos.length === 0; else videoList">
+                <p>No videos matched the search text.</p>
+            </div>
+            <ng-template #videoList>
+                <div *ngFor="let video of filteredVideos">
+                    <div [routerLink]="['/details', video.user_id, video.id]">
+                        <img [ngStyle]="{'height':'225px', 'width':'400px', 'cursor':'pointer'}"
+                            [src]="video.thumbnail">
+                    </div>
+                    <div class="video-details-container">
+                        <img [src]="video.photoURL">
 
-                    <div class="video-title" [routerLink]="['/details' , video.user_id, video.id ]">
-                        <p class="video-title-h">{{video.title}}</p>
-                        <p>{{video.channelName}}</p>
-                        <p>{{timeStamp(video.time)}}</p>
+                        <div class="video-title" [routerLink]="['/details', video.user_id, video.id]">
+                            <p class="video-title-h">{{video.title}}</p>
+                            <p>{{video.channelName}}</p>
+                            <p>{{timeStamp(video.time)}}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </ng-template>
         </div>
     </mat-drawer-content>
 </mat-drawer-container>

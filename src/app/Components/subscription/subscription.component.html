@@ -1,1 +1,20 @@
-<p>subscription works!</p>
+<div [ngStyle]="{'margin':'0 1rem'}" class="video-container">
+    <div *ngIf="videos?.length === 0; else videoList">
+        <p class="notsubscribe">You have not subscribed to any channel.</p>
+    </div>
+    <ng-template #videoList>
+        <div *ngFor="let video of videos">
+            <div [routerLink]="['/details' , video.user_id, video.id ]">
+                <img [ngStyle]="{'height':'225px', 'width':'400px', 'cursor':'pointer'}" [src]="video.thumbnail">
+            </div>
+            <div class="video-details-container">
+                <img [src]="video.photoURL">
+                <div class="video-title" [routerLink]="['/details' , video.user_id, video.id ]">
+                    <p class="video-title-h">{{video.title}}</p>
+                    <p>{{video.channelName}}</p>
+                    <p>{{timeStamp(video.time)}}</p>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>

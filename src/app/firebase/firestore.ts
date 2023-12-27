@@ -7,7 +7,10 @@ import {
     Timestamp,
     getDoc,
     updateDoc,
-    doc
+    doc,
+    arrayUnion,
+    setDoc,
+    arrayRemove
 } from "firebase/firestore";
 import { db } from "./firbaseconfig";
 
@@ -22,7 +25,8 @@ export interface Video {
     time: Date;
     photoURL: string;
     channelName: string;
-    comments?:any[];
+    comments?: any[];
+    likesCount?: number;
 }
 
 export interface Comment {
@@ -55,6 +59,7 @@ export async function fetchVideosByUserId(userId: string): Promise<Video[]> {
                     photoURL: data['photoURL'],
                     channelName: data['channelName'],
                     comments: data['comments'] || [],
+                    likesCount: data['likesCount']  || 0,
                 };
                 videos.push(video);
             }
@@ -89,6 +94,7 @@ export async function fetchAllVideos(): Promise<Video[]> {
                     photoURL: data['photoURL'],
                     channelName: data['channelName'],
                     comments: data['comments'] || [],
+                    likesCount: data['likesCount']  || 0,
                 };
                 videos.push(video);
             }
@@ -113,7 +119,7 @@ export async function addComment(comment: Comment, videoId: string): Promise<voi
             timestamp: new Date(),
         };
 
-        const updatedComments = [newComment, ...existingComments ];
+        const updatedComments = [newComment, ...existingComments];
 
         await updateDoc(videoDocument, {
             comments: updatedComments
@@ -135,3 +141,74 @@ export async function getComments(videoId: string): Promise<Comment[]> {
         throw error;
     }
 }
+
+export async function addSubscription(channelId: string, userId: string) {
+    const subscriptionDocRef = doc(db, 'subscriptions', userId);
+
+    try {
+        await setDoc(subscriptionDocRef, {
+            channelIds: arrayUnion(channelId),
+            timestamp: new Date(),
+        }, { merge: true });
+
+        console.log('Subscription added/updated successfully');
+    } catch (error) {
+        console.error('Error adding/updating subscription: ', error);
+    }
+}
+
+export async function removeSubscription(channelId: string, userId: string) {
+    const subscriptionDocRef = doc(db, 'subscriptions', userId);
+
+    try {
+        await setDoc(subscriptionDocRef, {
+            channelIds: arrayRemove(channelId),
+        }, { merge: true });
+
+        console.log('Subscription removed successfully');
+    } catch (error) {
+        console.error('Error removing subscription: ', error);
+    }
+}
+
+export async function getSubscription(userId: string) {
+    const subscriptionDocRef = doc(db, 'subscriptions', userId);
+
+    try {
+        const docSnapshot = await getDoc(subscriptionDocRef);
+
+        if (docSnapshot.exists()) {
+            const subscriptionData = docSnapshot.data();
+            console.log('Subscription found: ', subscriptionData);
+            return subscriptionData;
+        } else {
+            console.log('Subscription not found');
+            return null;
+        }
+    } catch (error) {
+        console.error('Error getting subscription: ', error);
+        return null;
+    }
+}
+
+export async function addLike(videoId: string, action:string): Promise<void> {
+    const videoDocument = doc(db, 'videos', videoId);
+    try {
+      const docSnapshot = await getDoc(videoDocument);
+      let existingLikesCount = docSnapshot.data()?.['likesCount'] || 0;
+        if(action == 'like'){
+            existingLikesCount = existingLikesCount + 1;
+        }
+        else{
+            existingLikesCount = existingLikesCount - 1;
+        }
+  
+      await updateDoc(videoDocument, {
+        likesCount: existingLikesCount
+      });
+    } catch (error) {
+      console.error('Error adding like: ', error);
+      throw error;
+    }
+  }
+  
