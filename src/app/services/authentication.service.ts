@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { app } from '../firebase/firbaseconfig';
-import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, onAuthStateChanged, signInWithRedirect } from "firebase/auth";
 
 @Injectable({
   providedIn: 'root',
@@ -35,9 +35,7 @@ export class AuthService {
   async login() {
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(this.auth, provider)
-      window.location.reload();
-      console.log("SignIn successfully")
+      await signInWithRedirect(this.auth, provider)
     }
     catch (error) {
       console.log(error);
@@ -48,7 +46,6 @@ export class AuthService {
     try {
       await signOut(this.auth)
       window.location.reload();
-      console.log('logged out');
     }
     catch (error) {
       console.log("LogOut failed")

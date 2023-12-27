@@ -52,6 +52,7 @@ export class HeaderComponent {
       await this.authService.login();
       this.user = await this.authService.getUser();
       this.photoUrl = this.user.photoURL;
+      // window.location.reload();
   }
 
   async logout() {
