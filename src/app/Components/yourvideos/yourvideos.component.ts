@@ -29,9 +29,11 @@ export class YourvideosComponent {
     try {
       this.isLoading = true;
       this.user = await this.authService.getUser();
+      if(this.user) {
       const videos = await fetchVideosByUserId(this.user?.uid);
-      this.isLoading = false;
       this.videos = videos;
+      }
+      this.isLoading = false;
     } catch (error) {
       console.error('Error fetching videos: ', error);
     }
