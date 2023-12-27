@@ -4,20 +4,20 @@ import { AuthService } from '../../services/authentication.service';
 import { CommonModule } from '@angular/common';
 import { formatDistanceToNow } from "date-fns";
 import { RouterModule } from '@angular/router';
+import { LoaderComponent } from "../loader/loader.component";
 
 @Component({
-  selector: 'app-subscription',
-  standalone: true,
-  imports: [CommonModule, RouterModule ],
-  templateUrl: './subscription.component.html',
-  styleUrl: './subscription.component.css'
+    selector: 'app-subscription',
+    standalone: true,
+    templateUrl: './subscription.component.html',
+    styleUrl: './subscription.component.css',
+    imports: [CommonModule, RouterModule, LoaderComponent]
 })
 
 export class SubscriptionComponent {
 
   videos:any;
   user:any;
-  loadingImage='../../../assets/loading.gif';
   isLoading=false;
 
   constructor(private authService: AuthService) { };

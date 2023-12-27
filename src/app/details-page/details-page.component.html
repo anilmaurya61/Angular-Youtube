@@ -23,11 +23,11 @@
                 </div>
             </div>
             <div class="like-btn-container">
-                <button (click)="handlelike('like')" mat-raised-button class="likebutton">
+                <button [disabled]="likeUp" (click)="handlelike('like')" mat-raised-button class="likebutton">
                     <mat-icon aria-hidden="false" aria-label="Like icon" fontIcon="thumb_up"></mat-icon>
                     {{likesCount}}
                 </button>
-                <button (click)="handlelike('dislike')" mat-raised-button class="dislikebutton">
+                <button [disabled]="likeDown" (click)="handlelike('dislike')" mat-raised-button class="dislikebutton">
                     <mat-icon aria-hidden="false" aria-label="Dislike icon" fontIcon="thumb_down"></mat-icon>
                 </button>
             </div>

@@ -37,6 +37,8 @@ export class DetailsPageComponent {
     relatedVideos: any[] = [];
     subscribe: any;
     isSubscribed: boolean = false;
+    likeUp: boolean = false;
+    likeDown: boolean = false;
 
     constructor(
         private authService: AuthService,
@@ -83,9 +85,11 @@ export class DetailsPageComponent {
     async handlelike(action: string) {
         await addLike(this.currentVideos[0].id, action)
        if(action === 'like'){
+        this.likeUp = !this.likeUp;
         this.likesCount++;
        }
        else{
+        this.likeDown = !this.likeDown;
         this.likesCount--;
        }
     }

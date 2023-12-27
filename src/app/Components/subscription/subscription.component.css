@@ -36,9 +36,3 @@
 .video-title p {
     margin: 0;
 }
-.loader{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 85vh;
-}

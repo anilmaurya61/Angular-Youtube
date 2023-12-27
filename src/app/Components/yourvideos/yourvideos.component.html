@@ -1,4 +1,4 @@
-<div class="your-videos-container">
+<div *ngIf="!isLoading" class="your-videos-container">
     <div *ngIf="user; else loginSection" class="related-video-container">
         <div *ngFor="let video of videos" class="related-video">
             <div class="videos" [routerLink]="['/details' , video.user_id, video.id ]">
@@ -15,3 +15,4 @@
         <p>Please log in to view videos.</p>
     </ng-template>
 </div>
+<app-loader *ngIf="isLoading"></app-loader>

@@ -1,38 +1,37 @@
 <div class="overlay">
-    <div class="dialog-container">
-      <h2>Upload Video</h2>
-      <p *ngIf="error" [ngStyle]="{'color':'red'}">*All the Fields Are required</p>
-      <div class="form-group">
-        <mat-form-field [ngStyle]="{'width':'100%'}">
-          <mat-label>Enter Title</mat-label>
-          <input matInput [value]="title" (input)="handleTitle($event)">
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field [ngStyle]="{'width':'100%'}">
-          <mat-label>Enter Description</mat-label>
-          <textarea matInput [value]="description" (input)="handledescription($event)" rows="5"></textarea>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field [ngStyle]="{'width':'100%'}">
-          <mat-label>Enter Tags (separated by commas)</mat-label>
-          <input matInput [value]="tags" (input)="handletags($event)">
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <label for="thumbnail">Upload Thumbnail:</label>
-        <input type="file" id="thumbnail" (change)="onThumbnailFileChange($event)" />
-      </div>      
-      <div class="form-group">
-        <label for="videoFile">Upload Video:</label>
-        <input type="file" id="videoFile" (change)="onVideoFileChange($event)" />
-      </div>
-      <div class="button-container">
-        <button *ngIf="!isUploading" (click)="closePopUp()">Cancel</button>
-        <button *ngIf="!isUploading" (click)="uploadVideo()">Upload</button>
-        <div *ngIf="isUploading" class="loading-indicator">Uploading...</div>
-      </div>
+  <div class="dialog-container">
+    <h2>Upload Video</h2>
+    <p *ngIf="error" [ngStyle]="{'color':'red'}">*All the Fields Are required</p>
+    <div class="form-group">
+      <mat-form-field [ngStyle]="{'width':'100%'}">
+        <mat-label>Enter Title</mat-label>
+        <input matInput [value]="title" (input)="handleTitle($event)">
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field [ngStyle]="{'width':'100%'}">
+        <mat-label>Enter Description</mat-label>
+        <textarea matInput [value]="description" (input)="handledescription($event)" rows="5"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <mat-form-field [ngStyle]="{'width':'100%'}">
+        <mat-label>Enter Tags (separated by commas)</mat-label>
+        <input matInput [value]="tags" (input)="handletags($event)">
+      </mat-form-field>
+    </div>
+    <div class="form-group">
+      <label for="thumbnail">Upload Thumbnail:</label>
+      <input type="file" id="thumbnail" (change)="onThumbnailFileChange($event)" />
+    </div>
+    <div class="form-group">
+      <label for="videoFile">Upload Video:</label>
+      <input type="file" id="videoFile" (change)="onVideoFileChange($event)" />
+    </div>
+    <div class="button-container">
+      <button *ngIf="!isUploading" (click)="closePopUp()">Cancel</button>
+      <button *ngIf="!isUploading" (click)="uploadVideo()">Upload</button>
+      <div *ngIf="isUploading" class="loading-indicator">Uploading...</div>
     </div>
   </div>
-  
+</div>

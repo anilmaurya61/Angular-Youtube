@@ -18,9 +18,7 @@
         </div>
     </ng-template>
 </div>
-<div class="loader" *ngIf="isLoading">
-    <img [src]="loadingImage" alt="">
-</div>
+<app-loader *ngIf="isLoading"></app-loader>
 <ng-template  #messageTemplate>
     <p [ngStyle]="{'height':'85vh'}">Please Login to view Subscription videos</p>
 </ng-template>

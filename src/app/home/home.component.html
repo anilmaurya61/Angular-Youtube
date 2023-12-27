@@ -27,12 +27,14 @@
     <!-- Main -->
 
     <mat-drawer-content [ngSwitch]="tab">
+        <app-loader *ngIf="isLoading"></app-loader>
+
         <app-subscription *ngSwitchCase=" 'subscription' "></app-subscription>
         <app-yourvideos *ngSwitchCase="'videos'"></app-yourvideos>
 
         <div *ngSwitchDefault [ngStyle]="{'margin':'0 1rem'}" class="video-container">
             <div [ngStyle]="{'height':'90vh'}" *ngIf="filteredVideos.length === 0; else videoList">
-                <p>No videos matched the search text.</p>
+                <p *ngIf="!isLoading">No videos matched the search text.</p>
             </div>
             <ng-template #videoList>
                 <div *ngFor="let video of filteredVideos">

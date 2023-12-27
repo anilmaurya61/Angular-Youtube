@@ -10,6 +10,7 @@ import { YourvideosComponent } from "../Components/yourvideos/yourvideos.compone
 import { RouterModule } from '@angular/router';
 import { fetchAllVideos, Video } from '../firebase/firestore'
 import { formatDistanceToNow } from "date-fns";
+import { LoaderComponent } from "../Components/loader/loader.component";
 
 
 @Component({
@@ -17,7 +18,7 @@ import { formatDistanceToNow } from "date-fns";
     standalone: true,
     templateUrl: './home.component.html',
     styleUrl: './home.component.css',
-    imports: [RouterModule, CommonModule, MatIconModule, HeaderComponent, MatSidenavModule, UploadVideoComponent, SubscriptionComponent, YourvideosComponent]
+    imports: [RouterModule, CommonModule, MatIconModule, HeaderComponent, MatSidenavModule, UploadVideoComponent, SubscriptionComponent, YourvideosComponent, LoaderComponent]
 })
 export class HomeComponent {
     @Input()
@@ -28,12 +29,15 @@ export class HomeComponent {
     videos: any;
     searchQuery: string = 'heeriye';
     filteredVideos: Video[] = [];
+    isLoading: boolean = false;
 
     constructor(private authService: AuthService) { }
 
     async ngOnInit() {
         try {
+            this.isLoading = true;
             const videos: Video[] = await fetchAllVideos();
+            this.isLoading = false;
             this.videos = videos;
             this.filteredVideos = videos;
         } catch (error) {
@@ -51,7 +55,7 @@ export class HomeComponent {
         }
     }
     searchVideos(searchText: string) {
-
+        this.tab = '';
         const query = searchText.toLowerCase();
 
         this.filteredVideos = this.videos.filter((video: Video) =>
